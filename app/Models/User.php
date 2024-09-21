@@ -54,9 +54,24 @@ class User extends Authenticatable implements JWTSubject
         'status' => UserStatus::class,
     ];
 
+    /*public static function boot()
+    {
+        parent::boot();
+        static::creating(function ($model) {
+            $model->email = Hash::make($model->password);
+        });
+    }*/
+
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = Hash::make($value);
+    }
+
+    public function verifyAccount()
+    {
+        $this->email_verified_at = now();
+        $this->status = 1;
+        $this->save();
     }
 
     public function getJWTIdentifier()

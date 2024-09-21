@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Api\Auth\CustomerLoginController;
+use App\Http\Controllers\Api\Auth\CustomerRegisterController;
+use App\Http\Controllers\Api\Auth\CustomerVerifyController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +17,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::prefix('auth')->group(function(): void{
+    Route::post('register', [CustomerRegisterController::class, 'store']);
+    Route::post('verify', [CustomerVerifyController::class, 'store']);
+    Route::post('login', [CustomerLoginController::class, 'store']);
 });

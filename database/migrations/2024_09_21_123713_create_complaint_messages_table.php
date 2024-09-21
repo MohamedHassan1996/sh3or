@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('complaint_messages', function (Blueprint $table) {
             $table->id();
             $table->text('message');
-            $table->foreignId('complaint_id')->nullable()->constrained('complaints')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('complaint_id')->nullable()->constrained(table: 'complaints')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('sender_id')->nullable()->constrained('users')->onUpdate('cascade')->onDelete('cascade');
             $this->CreatedUpdatedByRelationship($table);
             $table->timestamps();

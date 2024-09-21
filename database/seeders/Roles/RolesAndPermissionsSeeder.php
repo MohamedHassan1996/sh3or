@@ -30,8 +30,6 @@ class RolesAndPermissionsSeeder extends Seeder
                 'guard_name' => 'web',
             ]);
         }
-
-
         // roles
         $superAdmin = Role::create(['name' => 'مدير']);
         $superAdmin->givePermissionTo(Permission::all());
