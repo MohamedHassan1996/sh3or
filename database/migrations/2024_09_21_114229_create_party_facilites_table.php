@@ -17,7 +17,7 @@ return new class extends Migration
         Schema::create('party_facilites', function (Blueprint $table) {
             $table->id();
             $table->foreignId('party_id')->nullable()->constrained('parties')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('facility_id')->nullable()->constrained('facilites')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('facility_id')->nullable()->constrained('facilities')->onUpdate('cascade')->onDelete('cascade');
             $table->boolean('status')->default(FStatus::ACTIVE->value);
             $this->CreatedUpdatedByRelationship($table);
             $table->timestamps();

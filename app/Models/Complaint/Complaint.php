@@ -2,6 +2,7 @@
 
 namespace App\Models\Complaint;
 
+use App\Enums\Complaint\ComplaintStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,6 +16,11 @@ class Complaint extends Model
         'user_id',
         'status'
     ];
+
+    protected $casts = [
+        'status' => ComplaintStatus::class
+    ];
+
     private function generateComplaintNumber(): string
     {
         $timestampStr = substr((string)time(), 0, 6);

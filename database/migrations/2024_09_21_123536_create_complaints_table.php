@@ -1,6 +1,6 @@
 <?php
 
-use App\Enums\User\ComplaintStatus;
+use App\Enums\Complaint\ComplaintStatus;
 use App\Traits\CreatedUpdatedByMigration;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;

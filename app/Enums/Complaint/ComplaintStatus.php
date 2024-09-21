@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Enums\User;
+namespace App\Enums\Complaint;
 
 enum ComplaintStatus: int{
 

@@ -45,10 +45,6 @@ class SelectService
             'users' => ['getAllUsers', UserSelectService::class],
             'roles' => ['getAllRoles', RoleSelectService::class],
             'permissions' => ['getAllPermissions', PermissionSelectService::class],
-            'companies' => ['getAllCompanies', CompanySelectService::class],
-            'branches' => ['getAllBranches', BranchSelectService::class],
-            'customers' => ['getAllCustomers', CustomerSelectService::class],
-            'parameters' => ['getAllParameters', ParameterSelectService::class]
         ];
 
         $paramValue = null; // Initialize paramValue
