@@ -27,7 +27,8 @@ class CustomerRegisterController extends Controller
             $data = request()->validate([
                 'phone' => 'required',
                 'name' => 'required',
-                'password' => 'required'
+                'password' => 'required',
+                'role' => 'required'
             ]);
 
             $user = User::where('phone', $data['name'])->first();
@@ -44,7 +45,7 @@ class CustomerRegisterController extends Controller
                 'phone' => $data['phone'],
                 'password' => $data['password'],
                 'status' => UserStatus::INACTIVE->value,
-                'role' => UserRole::CUSTOMER->value
+                'role' => $data['role']
             ]);
 
             $otp = Otp::create([
@@ -62,6 +63,9 @@ class CustomerRegisterController extends Controller
 
             return response()->json([
                 'message' => 'يرجى تفعيل الحساب',
+                'data' => [
+                    'phone' => $user->phone,
+                ]
             ]);
 
         }catch(Exception $e){

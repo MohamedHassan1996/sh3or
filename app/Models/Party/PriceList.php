@@ -16,10 +16,6 @@ class PriceList extends Model
         'start_at',
         'end_at',
         'price',
-        'status',
     ];
 
-    protected $casts = [
-        'status' => PriceListStatus::class,
-    ];
 }

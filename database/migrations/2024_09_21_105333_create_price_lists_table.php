@@ -21,7 +21,6 @@ return new class extends Migration
             $table->timestamp('start_at')->nullable();
             $table->timestamp('end_at')->nullable();
             $table->decimal('price', 10, 2);
-            $table->boolean('status')->default(PriceListStatus::INACTIVE->value);
             $this->CreatedUpdatedByRelationship($table);
 
             $table->timestamps();

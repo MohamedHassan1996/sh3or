@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreignId('party_id')->nullable()->constrained('parties')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('pricelist_id')->nullable()->constrained('price_lists')->onUpdate('cascade')->onDelete('cascade');
             $table->boolean('status')->default(PriceListStatus::INACTIVE->value);
+            $table->string('type')->default(PriceListType::SECONDARY->value);
             $this->CreatedUpdatedByRelationship($table);
             $table->timestamps();
         });

@@ -21,8 +21,9 @@ return new class extends Migration
             $table->string('name');
             $table->string('address');
             $table->text('description');
-            $table->foreignId('catgory_id')->nullable()->constrained('party_categories')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('category_id')->nullable()->constrained('party_categories')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('city_id')->nullable()->constrained('cities')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('vendor_id')->nullable()->constrained('users')->onUpdate('cascade')->onDelete('cascade');
             $table->boolean('status')->default(PartyStatus::INACTIVE->value);
             $table->boolean('allow_cancel')->default(PartyCancelStatus::NON_CANCELLABLE->value);
             $this->CreatedUpdatedByRelationship($table);

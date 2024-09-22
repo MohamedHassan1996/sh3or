@@ -4,61 +4,56 @@ namespace App\Http\Controllers\Api\Auth;
 
 use App\Enums\Otp\OtpType;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\User\UserProfileResource;
 use App\Models\Otp\Otp;
 use App\Models\User;
 use App\Services\WhatsAppNotification\WhatsAppNotificationService;
 use Exception;
-use Illuminate\Http\Request;
-use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\DB;
 
-class CustomerVerifyController extends Controller
+class CustomerResetPasswordController extends Controller
 {
     private $whatsAppNotificationService;
     public function __construct(WhatsAppNotificationService $whatsAppNotificationService)
     {
         $this->whatsAppNotificationService = $whatsAppNotificationService;
     }
-    public function store(Request $request)
+    public function store()
     {
         try{
             DB::beginTransaction();
-
             $data = request()->validate([
                 'phone' => 'required',
                 'otp' => 'required',
+                'password' => 'required'
             ]);
 
             $user = User::where('phone', $data['phone'])->first();
 
             if (!$user) {
 
-                return [
-                    'success' => false,
-                    'message' => 'هذا الحساب غير موجود',
-                ];
+                return response()->json([
+                    'message' => 'هذا الحساب غير موجود'
+                ]);
             }
 
             $otp = Otp::where('otp', $data['otp'])->where('phone', $data['phone'])->first();
 
-            if (!$otp->isValidOtp($data['otp']) || $otp->type->value != OtpType::REGISTER->value) {
+            if (!$otp->isValidOtp($data['otp']) || $otp->type->value != OtpType::RESET->value) {
                 return response()->json([
                     'message' => 'هذا الرمز غير صالح!',
                 ]);
             }
 
-            $user->verifyAccount();
+            $user->password = $data['password'];
 
-            $token = JWTAuth::fromUser($user);
+            $user->save();
 
             $otp->delete();
 
             DB::commit();
 
-            return response()->json(data: [
-                'token' => $token,
-                'user' => new UserProfileResource($user)
+            return response()->json([
+                'message' => 'تم تغيير الرقم السرى بنجاح',
             ]);
 
         }catch(Exception $e){

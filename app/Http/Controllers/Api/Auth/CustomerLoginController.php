@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Auth;
 
+use App\Enums\User\UserStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\User\UserProfileResource;
 use Illuminate\Http\Request;
@@ -26,6 +27,13 @@ class CustomerLoginController extends Controller
         }
 
         $user = Auth::guard('api')->user();
+
+
+        if ($user->status->value == UserStatus::INACTIVE->value) {
+            return response()->json([
+                'message' => 'الحساب غير مفعل!'
+            ], 401);
+        }
 
 
         return response()->json([
