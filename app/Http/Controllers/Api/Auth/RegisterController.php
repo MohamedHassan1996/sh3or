@@ -6,39 +6,25 @@ use App\Enums\Otp\OtpType;
 use App\Enums\User\UserRole;
 use App\Enums\User\UserStatus;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\AuthRegisterRequest;
 use App\Models\Otp\Otp;
 use App\Models\User;
 use App\Services\WhatsAppNotification\WhatsAppNotificationService;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class CustomerRegisterController extends Controller
+class RegisterController extends Controller
 {
     private $whatsAppNotificationService;
     public function __construct(WhatsAppNotificationService $whatsAppNotificationService)
     {
         $this->whatsAppNotificationService = $whatsAppNotificationService;
     }
-    public function store()
+    public function store(AuthRegisterRequest $authRegisterRequest)
     {
         try{
             DB::beginTransaction();
-            $data = request()->validate([
-                'phone' => 'required',
-                'name' => 'required',
-                'password' => 'required',
-                'role' => 'required'
-            ]);
-
-            $user = User::where('phone', $data['name'])->first();
-
-            if ($user) {
-                return response()->json([
-                    'message' => 'هذا الرقم موجود بالفعل!'
-                ], 400);
-            }
-
+            $data = $authRegisterRequest->validated();
 
             $user = User::create([
                 'name' => $data['name'],

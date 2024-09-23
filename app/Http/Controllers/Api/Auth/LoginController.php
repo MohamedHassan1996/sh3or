@@ -4,19 +4,15 @@ namespace App\Http\Controllers\Api\Auth;
 
 use App\Enums\User\UserStatus;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\AuthLoginRequest;
 use App\Http\Resources\User\UserProfileResource;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class CustomerLoginController extends Controller
+class LoginController extends Controller
 {
-    public function store()
+    public function store(AuthLoginRequest $authLoginRequest)
     {
-        $data = request()->validate([
-            'phone' => 'required',
-            'password' => 'required'
-        ]);
-
+        $data = $authLoginRequest->validated();
 
         $token = Auth::guard('api')->attempt(['phone' => $data['phone'], 'password' => $data['password']]);
 

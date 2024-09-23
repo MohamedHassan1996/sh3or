@@ -10,7 +10,7 @@ use App\Services\WhatsAppNotification\WhatsAppNotificationService;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
-class CustomerResetPasswordController extends Controller
+class ResetPasswordController extends Controller
 {
     private $whatsAppNotificationService;
     public function __construct(WhatsAppNotificationService $whatsAppNotificationService)

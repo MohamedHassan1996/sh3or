@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\DB;
 
-class CustomerVerifyController extends Controller
+class VerifyController extends Controller
 {
     private $whatsAppNotificationService;
     public function __construct(WhatsAppNotificationService $whatsAppNotificationService)
@@ -57,8 +57,10 @@ class CustomerVerifyController extends Controller
             DB::commit();
 
             return response()->json(data: [
-                'token' => $token,
-                'user' => new UserProfileResource($user)
+                'data' => [
+                    'token' => $token,
+                    'user' => new UserProfileResource($user)
+                ]
             ]);
 
         }catch(Exception $e){
