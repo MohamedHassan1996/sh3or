@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers\Api\Customer\Reservation;
 
+use App\Enums\Party\Reservation\PayType;
+use App\Enums\Party\Reservation\ReservationStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Party\Party;
 use App\Models\Party\PartyRate;
+use App\Models\Party\PartyReservation;
 use App\Models\Party\PartyWishlist;
+use App\Models\Party\PreparationTime;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -70,31 +75,60 @@ class CustomerReservationController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'partyId' => 'required',
-            'userId' => 'required'
-        ]);
 
-        $wishlist = PartyWishlist::where('party_id', $data['partyId']);
+        try{
+            DB::beginTransaction();
+
+            $data = $request->validate([
+                'partyId' => 'required',
+                'userId' => 'required',
+                'date' => 'required',
+                'preparationId' => 'required',
+                'cityId' => 'required'
+            ]);
+
+            $preparationTime = PreparationTime::find($data['preparationId']);
 
 
-        if ($wishlist->where('customer_id', $data['userId'])->exists()) {
+            $party = Party::find($data['partyId']);
+
+
+
+            $reservation = PartyReservation::create([
+                'party_id' => $data['partyId'],
+                'customer_id' => $data['userId'],
+                'date' => $data['date'],
+                'city_id' => $data['cityId'],
+                'start_prep' => $preparationTime->start_at,
+                'end_prep' => $preparationTime->end_at,
+                'status' => ReservationStatus::RESERVED->value,
+                'pay_type' => PayType::CARD->value,
+                'price' => $party->activePrice(),
+                'price_after_discount' => $party->activePrice(),
+                'vendor_id' => $party->vendor_id
+            ]);
+
+            dd($reservation);
+
+
+            DB::commit();
 
             return response()->json([
-                'message' => 'مضافة للمفضلة من قبل'
+                'message' => 'تم الحجز بنجاح'
             ]);
+
+
+
+        }catch(Exception $e){
+
+            DB::rollBack();
+
+            return response()->json([
+                'message' => $e->getMessage()
+            ], 500);
+
         }
 
-
-        PartyWishlist::create([
-            'party_id' => $data['partyId'],
-            'customer_id' => $data['userId'],
-        ]);
-
-
-        return response()->json([
-            'message' => 'تم الاضافة للمفضلة'
-        ]);
     }
 
 
