@@ -73,7 +73,7 @@ Route::prefix('wishlists')->group(callback: function(): void{
 });
 
 Route::prefix('customer-api/reservations')->group(callback: function(): void{
-    //Route::get('', [PartyWishlistController::class, 'index']);
+    Route::get('', [CustomerReservationController::class, 'index']);
     Route::post('store', [CustomerReservationController::class, 'store']);
     //Route::delete('{id}', [PartyWishlistController::class, 'destroy']);
 });

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\Customer\Reservation;
+namespace App\Http\Controllers\Api\Customer\Complaint;
 
 use App\Enums\Party\Reservation\PayType;
 use App\Enums\Party\Reservation\ReservationStatus;
@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class CustomerReservationController extends Controller
+class CustomerComplaintController extends Controller
 {
 
 
@@ -147,10 +147,10 @@ class CustomerReservationController extends Controller
     public function destroy($id)
     {
 
-        PartyReservation::find($id)->delete();
+        PartyWishlist::find($id)->delete();
 
         return response()->json([
-            'message' => 'تم الغاء الحجز بنجاح'
+            'message' => 'تم الحذف من المفضلة'
         ]);
     }
 
