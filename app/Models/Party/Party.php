@@ -16,7 +16,6 @@ class Party extends Model
 
     protected $fillable = [
         'name',
-        'address',
         'description',
         'status',
         'allow_cancel',

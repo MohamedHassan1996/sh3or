@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('chat_messages', function (Blueprint $table) {
             $table->id();
             $table->text('message');
+            $table->timestamp('read_at')->nullable();
             $table->foreignId('chat_id')->nullable()->constrained('chats')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('sender_id')->nullable()->constrained('users')->onUpdate('cascade')->onDelete('cascade');
             $this->CreatedUpdatedByRelationship($table);

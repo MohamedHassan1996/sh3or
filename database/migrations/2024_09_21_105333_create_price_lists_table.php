@@ -21,8 +21,8 @@ return new class extends Migration
             $table->timestamp('start_at')->nullable();
             $table->timestamp('end_at')->nullable();
             $table->decimal('price', 10, 2);
+            $table->foreignId('vendor_id')->nullable()->constrained('users')->onUpdate('cascade')->onDelete('cascade');
             $this->CreatedUpdatedByRelationship($table);
-
             $table->timestamps();
         });
     }

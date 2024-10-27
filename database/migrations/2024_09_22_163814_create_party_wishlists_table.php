@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('party_wishlists', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('party_id')->nullable()->constrained(table: 'parties')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('customer_id')->nullable()->constrained(table: 'users')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('party_id')->nullable()->constrained('parties')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('customer_id')->nullable()->constrained('users')->onUpdate('cascade')->onDelete('cascade');
             $this->CreatedUpdatedByRelationship($table);
             $table->timestamps();
         });

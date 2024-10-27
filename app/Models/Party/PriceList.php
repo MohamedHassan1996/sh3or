@@ -2,8 +2,6 @@
 
 namespace App\Models\Party;
 
-use App\Enums\Party\PriceListStatus;
-use App\Enums\Party\PriceListType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,6 +14,7 @@ class PriceList extends Model
         'start_at',
         'end_at',
         'price',
+        'vendor_id'
     ];
 
 }

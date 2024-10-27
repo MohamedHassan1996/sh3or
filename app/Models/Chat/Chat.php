@@ -31,4 +31,13 @@ class Chat extends Model
 
     }
 
+    public function unreadMessagesCount($userId)
+    {
+        return ChatMessage::whereNull('read_at')
+            ->where('chat_id', $this->id)
+            ->where('sender_id', '!=', $userId) // Exclude messages sent by the user
+            ->count();
+    }
+
+
 }

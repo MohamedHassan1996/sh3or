@@ -2,7 +2,7 @@
 
 namespace App\Models\Facility;
 
-use App\Enums\Facility\FacilityStatus;
+use App\Enums\Facility\FStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,6 +17,6 @@ class Facility extends Model
     ];
 
     protected $casts = [
-        'status' => FacilityStatus::class,
+        'status' => FStatus::class,
     ];
 }

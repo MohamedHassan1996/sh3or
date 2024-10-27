@@ -16,11 +16,11 @@ class PartyWishlistController extends Controller
 
     public function index(Request $request)
     {
-        $user = Auth::guard('api')->user();
+        //$user = Auth::guard('api')->user();
 
         $partiesData = DB::table('party_wishlists')
             ->join('parties', 'parties.id', '=', 'party_wishlists.party_id')
-            ->join('party_categories', 'parties.catgory_id', '=', 'party_categories.id')
+            ->join('party_categories', 'parties.category_id', '=', 'party_categories.id')
             ->join('cities', 'parties.city_id', '=', 'cities.id')
             ->leftJoin('party_media', function ($join) {
                 $join->on('parties.id', '=', 'party_media.party_id')
@@ -37,7 +37,7 @@ class PartyWishlistController extends Controller
             ->where('cities.status', 1)
             ->where('party_categories.status', 1)
             ->where('parties.status', 1)
-            ->where('party_wishlists.customer_id', $user->id)
+            ->where('party_wishlists.customer_id', $request->userId)
             ->groupBy('parties.id', 'parties.name', 'cities.name', 'party_wishlists.id') // Group by party details
             ->get();
 
@@ -53,7 +53,7 @@ class PartyWishlistController extends Controller
                 'partyName' => $party->partyName,
                 'cityName' => $party->cityName,
                 'price' => $price,
-                'partyImage' => $party->partImage,
+                'partyImage' => $party->partImage??"",
                 'rate' => round($averageRate, 2),
             ];
         }

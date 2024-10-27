@@ -3,30 +3,21 @@
 namespace App\Http\Controllers\Api\Customer\PartyPreparationTime;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PartyPreparationTime\AllPartyPreparationTimeCollection;
 use App\Models\Party\PreparationTime;
-use Carbon\Carbon;
+use App\Utils\PaginateCollection;
+use Illuminate\Http\Request;
 
 class PartyPreparationTimeController extends Controller
 {
 
 
-    public function index()
+    public function index(Request $request)
     {
         $preparationTimes = PreparationTime::all(['id', 'start_at', 'end_at']);
 
-        $preparationTimes = $preparationTimes->map(function ($preparationTime) {
-            return [
-                'prepTimeId' => $preparationTime->id,
-                'startAt' => Carbon::parse( $preparationTime->start_at)->format('H:i'),
-                'endAt' => Carbon::parse( $preparationTime->end_at)->format('H:i'),
-            ];
-        });
+        return response()->json(new AllPartyPreparationTimeCollection(PaginateCollection::paginate($preparationTimes, $request->pageSize?$request->pageSize:10)));
 
-        return response()->json([
-            'data' => [
-                'preparationTimes' => $preparationTimes
-            ]
-        ]);
     }
 
 }

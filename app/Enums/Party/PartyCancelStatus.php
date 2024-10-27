@@ -4,9 +4,9 @@ namespace App\Enums\Party;
 
 enum PartyCancelStatus: int{
 
-    case CANCELLABLE = 0;
+    case NON_CANCELLABLE = 0;
 
-    case NON_CANCELLABLE = 1;
+    case CANCELLABLE = 1;
 
     public static function values(): array
     {

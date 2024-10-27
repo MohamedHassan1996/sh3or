@@ -31,4 +31,9 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'moyasar' => [
+        'publishable_key' => env('MOYASAR_PUBLISHABLE_KEY'),
+        'secret_key' => env('MOYASAR_SECRET_KEY'),
+    ],
+
 ];

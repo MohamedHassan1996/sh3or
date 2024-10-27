@@ -42,6 +42,13 @@ class VerifyController extends Controller
 
             $otp = Otp::where('otp', $data['otp'])->where('phone', $data['phone'])->first();
 
+
+            if (!$otp) {
+                return response()->json([
+                    'message' => 'هذا الرمز غير صالح!',
+                ]);
+            }
+
             if (!$otp->isValidOtp($data['otp']) || $otp->type->value != OtpType::REGISTER->value) {
                 return response()->json([
                     'message' => 'هذا الرمز غير صالح!',

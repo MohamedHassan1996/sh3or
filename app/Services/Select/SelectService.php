@@ -7,6 +7,7 @@ use App\Services\Select\Company\BranchSelectService;
 use App\Services\Select\Company\CompanySelectService;
 use App\Services\Select\Company\CustomerSelectService;
 use App\Services\Select\Parameter\ParameterSelectService;
+use App\Services\Select\Party\PartyPrepTimeSelectService;
 
 class SelectService
 {
@@ -45,10 +46,8 @@ class SelectService
             'users' => ['getAllUsers', UserSelectService::class],
             'roles' => ['getAllRoles', RoleSelectService::class],
             'permissions' => ['getAllPermissions', PermissionSelectService::class],
-            'companies' => ['getAllCompanies', CompanySelectService::class],
-            'branches' => ['getAllBranches', BranchSelectService::class],
-            'customers' => ['getAllCustomers', CustomerSelectService::class],
-            'parameters' => ['getAllParameters', ParameterSelectService::class]
+            'preparationTimes' => ['getAllPrepTimes', PartyPrepTimeSelectService::class],
+            'partyPreparationTimes' => ['getPartyAllPrepTimes', PartyPrepTimeSelectService::class],
         ];
 
         $paramValue = null; // Initialize paramValue

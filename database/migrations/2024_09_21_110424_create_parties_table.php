@@ -19,7 +19,6 @@ return new class extends Migration
         Schema::create('parties', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('address');
             $table->text('description');
             $table->foreignId('category_id')->nullable()->constrained('party_categories')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('city_id')->nullable()->constrained('cities')->onUpdate('cascade')->onDelete('cascade');

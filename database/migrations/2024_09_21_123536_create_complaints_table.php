@@ -17,8 +17,8 @@ return new class extends Migration
         Schema::create('complaints', function (Blueprint $table) {
             $table->id();
             $table->string('complaint_number')->unique();
+            $table->string('title');
             $table->foreignId('customer_id')->nullable()->constrained('users')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('user_id')->nullable()->constrained('users')->onUpdate('cascade')->onDelete('cascade');
             $table->tinyInteger('status')->default(ComplaintStatus::IN_PROGRESS->value);
             $this->CreatedUpdatedByRelationship($table);
             $table->timestamps();

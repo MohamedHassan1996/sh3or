@@ -4,20 +4,35 @@ namespace App\Http\Controllers\Api\Customer\Reservation;
 
 use App\Enums\Party\Reservation\PayType;
 use App\Enums\Party\Reservation\ReservationStatus;
+use App\Events\HomeEvent;
 use App\Http\Controllers\Controller;
+use App\Models\Chat\Chat;
+use App\Models\Chat\ChatMessage;
 use App\Models\Party\Party;
 use App\Models\Party\PartyRate;
 use App\Models\Party\PartyReservation;
 use App\Models\Party\PartyWishlist;
 use App\Models\Party\PreparationTime;
+use App\Models\User;
+use App\Services\Payment\MoyasarService;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
+
+
 class CustomerReservationController extends Controller
 {
+
+    private $moyasarService;
+
+    public function __construct(MoyasarService $moyasarService)
+    {
+
+        $this->moyasarService = $moyasarService;
+    }
 
 
     public function index(Request $request)
@@ -32,7 +47,7 @@ class CustomerReservationController extends Controller
 
         $reservations = DB::table('party_reservations')
             ->join('parties', 'parties.id', '=', 'party_reservations.party_id')
-            ->join('party_categories', 'parties.catgory_id', '=', 'party_categories.id')
+            ->join('party_categories', 'parties.category_id', '=', 'party_categories.id')
             ->join('cities', 'parties.city_id', '=', 'cities.id')
             ->leftJoin('party_media', function ($join) {
                 $join->on('parties.id', '=', 'party_media.party_id')
@@ -95,22 +110,21 @@ class CustomerReservationController extends Controller
 
             $data = $request->validate([
                 'partyId' => 'required',
-                'userId' => 'required',
+                'customerId' => 'required',
                 'date' => 'required',
-                'preparationId' => 'required',
+                'preparationTimeId' => 'required',
                 'cityId' => 'required'
             ]);
 
-            $preparationTime = PreparationTime::find($data['preparationId']);
+            $preparationTime = PreparationTime::find($data['preparationTimeId']);
 
 
             $party = Party::find($data['partyId']);
 
 
-
             $reservation = PartyReservation::create([
                 'party_id' => $data['partyId'],
-                'customer_id' => $data['userId'],
+                'customer_id' => $data['customerId'],
                 'date' => $data['date'],
                 'city_id' => $data['cityId'],
                 'start_prep' => $preparationTime->start_at,
@@ -122,11 +136,48 @@ class CustomerReservationController extends Controller
                 'vendor_id' => $party->vendor_id
             ]);
 
+            /*$chat = Chat::where('customer_id', $data['customerId'])->where('vendor_id', $party->vendor_id)->first();
+
+            if(!$chat){
+                $chat = Chat::create([
+                    'customer_id' => $data['customerId'],
+                    'vendor_id' => $party->vendor_id
+                ]);
+            }
+
+            $chatMessage = ChatMessage::create([
+                'chat_id' => $chat->id,
+                'sender_id' => $party->vendor_id,
+                'message' => 'اهلا بيك هذه الرسالة بخصوص متابعة حجز الحفل'
+            ]);
+
+            $sender = User::find($party->vendor_id);
+            $chatMessage->sende_name = $sender->name;
+            $chatMessage->sender_avatar = $sender->avatar??null;
+
+            //broadcast(new HomeEvent($chatMessage));
+
+            $payment = $this->moyasarService->processPayment([
+                'amount' => $party->activePrice(),
+                'currency' => 'SAR',
+                'paymentMethod' => $request->paymentMethod,
+                'cardNumber' => $request->cardNumber,
+                'cardHolderName' => $request->cardHolderName,
+                'cardCvc' => $request->cardCvc,
+                'cardExpMonth' => $request->cardExpMonth,
+                'cardExpYear' => $request->cardExpYear,
+                'callbackUrl' => route('payment.callback'),
+            ]);*/
 
             DB::commit();
 
             return response()->json([
-                'message' => 'تم الحجز بنجاح'
+                'partyReservation' => [
+                    'reservationId' => $reservation->id,
+                    'reservationNumber' => $reservation->reservation_number,
+                ]
+                //'paymentId' => $payment['id'],
+                //'status' => $payment['status'],
             ]);
 
 

@@ -22,4 +22,9 @@ class PartyPriceList extends Model
         'status' => PriceListStatus::class,
         'type' => PriceListType::class
     ];
+
+    public function pricelist()
+    {
+        return $this->belongsTo(PriceList::class);
+    }
 }
