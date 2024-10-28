@@ -12,11 +12,11 @@ return [
             'app_id' => env('PUSHER_APP_ID'),
             'options' => [
                 'cluster' => env('PUSHER_APP_CLUSTER'),
-                'encrypted' => true,
-                'useTLS' => true, // Adjust this based on your environment
-                'host' => 'shueur-app.shueur.com', // Adjust if necessary
-                'port' => 6001, // Adjust if you're using a different port
-                'scheme' => 'https',
+                'encrypted' => false,
+                'useTLS' => false, // Adjust this based on your environment
+                'host' => env('PUSHER_APP_HOST'), // Adjust if necessary
+                'port' => env('PUSHER_APP_PORT'), // Adjust if you're using a different port
+                'scheme' => 'http',
                 'curl_options' => [
                     CURLOPT_SSL_VERIFYHOST => 0,
                     CURLOPT_SSL_VERIFYPEER => 0
