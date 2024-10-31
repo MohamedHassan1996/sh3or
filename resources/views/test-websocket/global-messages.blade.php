@@ -90,11 +90,9 @@
 
             // Listen for new chat messages in real time using Echo
             if (window.Echo) {
-                console.log("Echo is defined.");
-                console.log("Subscribing to home-channel...");
                 Echo.channel(`chatNotification.${userId}`)
                     .listen('.chat-notification', (e) => {
-                        console.log("Event received.");
+                        console.log(e);
                         console.log('Message received:', e.message);
 
                         // Update the counter when a new message is received
