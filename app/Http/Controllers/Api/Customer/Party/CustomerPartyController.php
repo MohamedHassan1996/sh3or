@@ -112,14 +112,14 @@ class CustomerPartyController extends Controller
 
         $mediaData = PartyMedia::where('party_id', $partyData->partyId)->get();
 
-        $partyFacilitesData = Db::table('party_facilites')
-            ->join('facilities', 'facilities.id', '=', 'party_facilites.facility_id')
+        $partyFacilitesData = Db::table('party_facilities')
+            ->join('facilities', 'facilities.id', '=', 'party_facilities.facility_id')
             ->select(
                 'facilities.name as facilityName',
                 'facilities.path as facilityImage'
             )
-            ->where('party_facilites.party_id', $partyData->partyId)
-            ->where('party_facilites.status', 1)
+            ->where('party_facilities.party_id', $partyData->partyId)
+            ->where('party_facilities.status', 1)
             ->where('facilities.status', 1)
             ->get();
 
