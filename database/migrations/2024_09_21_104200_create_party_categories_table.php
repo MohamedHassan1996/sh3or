@@ -16,8 +16,8 @@ return new class extends Migration
     {
         Schema::create('party_categories', function (Blueprint $table) {
             $table->id();
-            $table->string(column: 'name');
-            $table->string('path');
+            $table->string('name');
+            $table->string('path')->nullable();
             $table->boolean('status')->default(CategoryStatus::INACTIVE->value);
             $this->CreatedUpdatedByRelationship($table);
             $table->timestamps();

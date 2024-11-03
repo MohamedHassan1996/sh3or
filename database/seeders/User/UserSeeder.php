@@ -21,17 +21,28 @@ class UserSeeder extends Seeder
 
         $user = User::create([
             'name' => 'Mohamed Khaled',
-            'email'=> 'admin@admin.com',
+            'email'=> 'customer@gmail.com',
             'status' => UserStatus::ACTIVE->value,
-            'phone' => '01018557045',
+            'phone' => '+201018557045',
             'password' => 'M@Ns123456',
-            'role' => UserRole::ADMIN->value,
+            'role' => UserRole::CUSTOMER->value,
             'avatar' => null
         ]);
 
-        $role = Role::findByName('مدير');
+        $user = User::create([
+            'name' => 'vendor',
+            'email'=> 'vendor@gmail.com',
+            'status' => UserStatus::ACTIVE->value,
+            'phone' => '+201018558045',
+            'password' => 'M@Ns123456',
+            'role' => UserRole::VENDOR->value,
+            'avatar' => null
+        ]);
 
-        $user->assignRole($role);
+
+        //$role = Role::findByName('مدير');
+
+        //$user->assignRole($role);
 
     }
 }

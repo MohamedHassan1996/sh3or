@@ -17,7 +17,7 @@ return new class extends Migration
         Schema::create('facilities', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('path');
+            $table->string('path')->nullable();
             $table->boolean('status')->default(FStatus::INACTIVE->value);
             $this->CreatedUpdatedByRelationship($table);
             $table->timestamps();

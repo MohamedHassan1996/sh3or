@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('preparation_times', function (Blueprint $table) {
             $table->id();
-            $table->time(column: 'start_at');
+            $table->time('start_at');
             $table->time('end_at');
             $this->CreatedUpdatedByRelationship($table);
             $table->timestamps();
