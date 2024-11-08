@@ -40,10 +40,10 @@ class RegisterController extends Controller
             ]);
 
 
-            $this->whatsAppNotificationService->send(
+            /*$this->whatsAppNotificationService->send(
                 $otp->otp,
                 $otp->phone
-            );
+            );*/
 
             DB::commit();
 
