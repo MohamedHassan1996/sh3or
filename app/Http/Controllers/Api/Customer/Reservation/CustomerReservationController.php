@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Customer\Reservation;
 use App\Enums\Party\Reservation\PayType;
 use App\Enums\Party\Reservation\ReservationStatus;
 use App\Events\HomeEvent;
+use App\Events\MessageNotificationEvent;
 use App\Http\Controllers\Controller;
 use App\Models\Chat\Chat;
 use App\Models\Chat\ChatMessage;
@@ -13,6 +14,7 @@ use App\Models\Party\PartyRate;
 use App\Models\Party\PartyReservation;
 use App\Models\Party\PartyWishlist;
 use App\Models\Party\PreparationTime;
+use App\Models\Payment\Payment;
 use App\Models\User;
 use App\Services\Payment\MoyasarService;
 use Carbon\Carbon;
@@ -136,7 +138,7 @@ class CustomerReservationController extends Controller
                 'vendor_id' => $party->vendor_id
             ]);
 
-            /*$chat = Chat::where('customer_id', $data['customerId'])->where('vendor_id', $party->vendor_id)->first();
+            $chat = Chat::where('customer_id', $data['customerId'])->where('vendor_id', $party->vendor_id)->first();
 
             if(!$chat){
                 $chat = Chat::create([
@@ -157,7 +159,7 @@ class CustomerReservationController extends Controller
 
             //broadcast(new HomeEvent($chatMessage));
 
-            $payment = $this->moyasarService->processPayment([
+            /*$payment = $this->moyasarService->processPayment([
                 'amount' => $party->activePrice(),
                 'currency' => 'SAR',
                 'paymentMethod' => $request->paymentMethod,
@@ -166,16 +168,28 @@ class CustomerReservationController extends Controller
                 'cardCvc' => $request->cardCvc,
                 'cardExpMonth' => $request->cardExpMonth,
                 'cardExpYear' => $request->cardExpYear,
-                'callbackUrl' => route('payment.callback'),
+                'callbackUrl' => route('payment.callback', ['id' => $reservation->id]),
             ]);*/
+
+            $payment = Payment::create([
+                'reservation_id' => $reservation->id,
+                'payment_guid' => $request->paymentId,
+                'payment_number' => $request->paymentId,
+                'amount' => $request->paymentAmount,
+                'status' =>1,
+                'source' => $request->paymentSource,
+                'cur' => 'SAR',
+                'description' => $request->paymentDescription
+            ]);
+
 
             DB::commit();
 
+            broadcast(new HomeEvent($chatMessage));
+            broadcast(new MessageNotificationEvent($chatMessage));
+
             return response()->json([
-                'partyReservation' => [
-                    'reservationId' => $reservation->id,
-                    'reservationNumber' => $reservation->reservation_number,
-                ]
+                'message' => 'تم الحجز بنجاح',
                 //'paymentId' => $payment['id'],
                 //'status' => $payment['status'],
             ]);

@@ -273,7 +273,7 @@ Route::get('all-chats', function () {
 });
 
 
-Route::get('/payment/callback', [CustomerPaymentController::class, 'paymentCallback']);//->name('payment.callback');
+Route::get('/payment/callback', [CustomerPaymentController::class, 'paymentCallback'])->name('payment.callback');
 
 
 Route::get('/payment', function () {

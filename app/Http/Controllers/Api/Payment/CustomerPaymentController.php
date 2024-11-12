@@ -117,7 +117,7 @@ class CustomerPaymentController extends Controller
                 'description' => $response['description']
             ]);
 
-            broadcast(new HomeEvent($chatMessage));
+            //broadcast(new HomeEvent($chatMessage));
             return response()->json(['message' => 'تم الحجز بنجاح']);
 
 

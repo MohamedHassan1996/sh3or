@@ -28,7 +28,7 @@
             currency: 'SAR',
             description: 'Coffee Order #1',
             publishable_api_key: '{{ env("MOYASAR_PUBLISHABLE_KEY") }}', // Use your publishable key from .env
-            callback_url: '{{ url('api/payment/callback?reservationId=27') }}',
+            callback_url: '{{ url('api/payment/callback?reservationId=5') }}',
             methods: ['creditcard'],
             //fixed_width: false, // Optional
            /* on_initiating: function () {
