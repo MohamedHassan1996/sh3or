@@ -56,6 +56,13 @@ return [
             'throw' => false,
         ],
 
+        'dashboard_storage' => [
+            'driver' => 'local',
+            'root' => '/var/www/dashboard/storage/app/public',
+            'url' => env('APP_URL_DASHBOARD') . '/storage',
+            'visibility' => 'public',
+        ],
+
     ],
 
     /*
