@@ -19,7 +19,7 @@ class AllCityResource extends JsonResource
         return [
             'cityId' => $this->id,
             'name' => $this->name??"",
-            'path' => $this->path?Storage::disk('public')->url($this->path):"",
+            'path' => $this->path?Storage::url($this->path):"",
         ];
     }
 }
