@@ -59,10 +59,9 @@ return [
         'dashboard_storage' => [
             'driver' => 'local',
             'root' => '/var/www/dashboard/storage/app/public',
-            'url' => env('APP_URL_DASHBOARD') . '/storage',
+            'url' => env('APP_URL_DASHBOARD') . '/storage',  // Correct URL, no extra /storage
             'visibility' => 'public',
         ],
-
     ],
 
     /*
