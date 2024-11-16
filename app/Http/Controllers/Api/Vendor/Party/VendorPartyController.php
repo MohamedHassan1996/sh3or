@@ -220,7 +220,8 @@ class VendorPartyController extends Controller
                 'category_id' => $data['categoryId'],
                 'city_id' => $data['cityId'],
                 'allow_cancel' => PartyCancelStatus::from($data['allowCancel'])->value,
-                'status' => PartyStatus::REVIEW->value
+                'status' => PartyStatus::REVIEW->value,
+                'vendor_id' => $data['vendorId']
             ]);
 
 
