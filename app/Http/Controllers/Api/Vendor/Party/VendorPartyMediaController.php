@@ -50,7 +50,7 @@ class VendorPartyMediaController extends Controller
             $mediaPath = null;
 
             if(isset($data['media']) && $data['media'] instanceof UploadedFile){
-                $mediaPath =  $this->uploadService->uploadFile($data['media'], 'parties');
+                $mediaPath =  $this->uploadService->uploadFile($data['media'], 'parties', 'dashboard_storage');
             }
 
 

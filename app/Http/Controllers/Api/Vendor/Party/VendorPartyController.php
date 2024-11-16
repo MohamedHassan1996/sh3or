@@ -35,7 +35,7 @@ class VendorPartyController extends Controller
     public function index(Request $request)
     {
         //$user = Auth::guard('api')->user();
-        
+
 
         $partiesData = DB::table('parties')
             ->join('party_categories', 'parties.category_id', '=', 'party_categories.id')
@@ -226,7 +226,7 @@ class VendorPartyController extends Controller
 
             foreach ($partyMediaData as $key => $record) {
 
-                $mediaPath =  $this->uploadService->uploadFile($record['media'], 'parties');
+                $mediaPath =  $this->uploadService->uploadFile($record['media'], 'parties', 'dashboard_storage');
 
                 PartyMedia::create([
                     'party_id' => $party->id,
@@ -234,7 +234,7 @@ class VendorPartyController extends Controller
                 ]);
             }
 
-            
+
             foreach ($partyFacilitiesData as $key => $record) {
                 PartyFacility::create([
                     'party_id' => $party->id,
