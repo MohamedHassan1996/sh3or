@@ -13,7 +13,8 @@ class UploadService
         "uploads" => "uploads",
         "images"  => "images",
         "files"  => "files",
-        "public"  => "public"
+        "public"  => "public",
+        'dashboard_storage' => 'dashboard_storage'
     ];
 
     public function uploadFile(UploadedFile $uploadedFile, string $uploadPath = null, string $storageDisk = 'public'): string
@@ -25,7 +26,7 @@ class UploadService
         $fileOnServerName = time() . '_' . $fileName;
         $fileExtension = $file->guessExtension();
         $filePath = Storage::disk($this->storageDisks[$storageDisk])->putFileAs($uploadPath, $file, $fileOnServerName . '.' . $fileExtension);
-        
+
         return $filePath;
     }
 
@@ -40,7 +41,7 @@ class UploadService
             $fileOnServerName = time() . '_' . $fileName;
             $fileExtension = $file->guessExtension();
             $filePath = Storage::disk('public')->putFileAs($uploadPath, $file, $fileOnServerName . '.' . $fileExtension);
-            
+
             $uploadedPaths[] = $filePath;
         }
 
